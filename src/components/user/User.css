@@ -1,0 +1,39 @@
+
+.user-name{
+    font-size:18px;
+    line-height: 5px;
+    color:#e93939;
+    margin-top: 60px;
+}
+
+
+
+.delete{
+    font-size:14px;
+    color:#007FA3;
+    text-decoration: none;
+    float: left;
+    margin-top: 30px;
+    margin-left: 15px;
+    line-height: 15px;
+}
+
+.delete:hover{
+    font-size:14px;
+    color:rgb(2, 72, 92);
+    text-decoration: none;
+    float: left;
+    margin-top: 30px;
+    margin-left: 15px;
+    line-height: 15px;
+    cursor: pointer;
+}
+
+.avatar {
+    width:80px;
+    height:80px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
