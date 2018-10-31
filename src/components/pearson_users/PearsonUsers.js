@@ -1,12 +1,17 @@
 import React, {Component} from "react";
 import HttpClient from "../../services/util/HttpClient";
+import UserPrompt from "../common/UserPrompt"
 import User from "../user/User";
 import NoUser from "../common/NoUser";
 import Loader from "../common/Loader"
 import {COMPONENT_CONSTANTS} from "../../constants/Component_Constants";
 import "./PearsonUsers.css"
+
+
 export class PearsonUsers extends Component {
     state = {
+        indexToDelete: null,
+        showModal: false,
         isLoading: false,
         users: [
             {
@@ -28,14 +33,11 @@ export class PearsonUsers extends Component {
                 avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg"
             }
         ]
-
     };
 
 
     /**
-
      * Component mounting is completed fetch user list here
-
      */
 
     componentDidMount() {
@@ -44,9 +46,7 @@ export class PearsonUsers extends Component {
 
 
     /**
-
      * Fetch user list data and update state
-
      */
 
     getUserList = () => {
@@ -60,7 +60,6 @@ export class PearsonUsers extends Component {
         }, (err) => {
             console.log(err);
         });
-
     };
 
 
@@ -93,7 +92,7 @@ export class PearsonUsers extends Component {
         users.splice(index, 1);
 
         this.setState({
-            users
+            users, showModal: false
         });
     };
 
@@ -112,15 +111,12 @@ export class PearsonUsers extends Component {
 
         if (users.length) {
             usersData = users.map((user, index) => {
-                return (
-                          <User key = {user.id} user = {user} deleteUser = {() => this.deleteUser(index)}></User>
-                        );
-            }
-            );
+                return (<User key={user.id} user={user} openDeleteModal={()=>this.handleOpenModal(index)}></User>);
+            });
         }
 
         return usersData;
-        };
+    };
 
 
     /**
@@ -128,16 +124,56 @@ export class PearsonUsers extends Component {
      */
 
     render() {
-        const {isLoading} =
-        this.state;
+        const {showModal,isLoading} = this.state;
         return (
             <div className = "pearson-users" >
                 <h1> Pearson User Management </h1>
                 <div className = "users-container" >
                 {this.makeUserList()}
                 </div>
-                <Loader loading = {isLoading} ></Loader>
+                <Loader loading={isLoading} ></Loader>
+                <UserPrompt
+                    showModal = {showModal}
+                    message = {COMPONENT_CONSTANTS.user_prompt_message}
+                    closeModal = {this.handleCloseModal}
+                    confirmDelete = {this.confirmationToDeleteUser}>
+                </UserPrompt>
             </div>
         );
+    };
+
+
+
+    /**
+     * Opens confirmation modal
+     */
+
+    handleOpenModal = (indexToDelete) => {
+        this.setState({
+            showModal: true, indexToDelete: indexToDelete
+        });
+    };
+
+
+    /**
+     * Closes confirmation modal
+     */
+
+    handleCloseModal = () => {
+        this.setState({
+            showModal: false, indexToDelete: null
+        });
+    };
+
+
+    /*
+    * Confirmation to delete user
+    */
+
+    confirmationToDeleteUser = () => {
+        const {indexToDelete} = this.state;
+
+        this.deleteUser(indexToDelete);
     }
+
 }

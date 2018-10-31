@@ -1,0 +1,16 @@
+.loader-background{
+    background-color: #f7f9f8;
+}
+
+
+
+.loader {
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 45px;
+    height: 45px;
+    -webkit-animation: spin 2s linear infinite;
+    margin: auto;
+    animation: spin 2s linear infinite;
+}
