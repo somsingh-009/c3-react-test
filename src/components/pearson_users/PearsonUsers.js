@@ -42,7 +42,7 @@ export class PearsonUsers extends Component {
 
     componentDidMount() {
         this.getUserList();
-    }
+    };
 
 
     /**
@@ -173,6 +173,6 @@ export class PearsonUsers extends Component {
         const {indexToDelete} = this.state;
 
         this.deleteUser(indexToDelete);
-    }
+    };
 
 }

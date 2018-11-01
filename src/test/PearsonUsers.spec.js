@@ -2,8 +2,10 @@ import React from "react";
 import { shallow } from "enzyme";
 import { PearsonUsers } from "../components/pearson_users/PearsonUsers";
 import User from "../components/user/User";
+import HttpClient from "../services/util/HttpClient";
 
 
+jest.mock('../services/util/HttpClient');
 
 describe("PearsonUsers component tests", () => {
 
@@ -31,13 +33,14 @@ describe("PearsonUsers component tests", () => {
 
 
 
-    beforeAll(() => {
+    beforeEach(() => {
+        HttpClient.get.mockImplementation(() => Promise.resolve({data:{data:[]}}))
         component = shallow(<PearsonUsers/>);
     });
 
 
 
-    afterAll(() => {
+    afterEach(() => {
         component = null;
     });
 
