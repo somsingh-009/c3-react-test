@@ -52,11 +52,13 @@ export class PearsonUsers extends Component {
     getUserList = () => {
         const url = COMPONENT_CONSTANTS.user_request_url;
 
+        this.setState({isLoading: true});
+
         HttpClient.get(url).then((response) => {
             let allUsers = [...this.state.users, ...response.data.data];
             let filteredUsers = this.filterUniqueUsers(allUsers);
 
-            this.setState({users: filteredUsers});
+            this.setState({users: filteredUsers,isLoading:false});
         }, (err) => {
             console.log(err);
         });
@@ -75,7 +77,6 @@ export class PearsonUsers extends Component {
             findValue = newUsers.find(u => {
                 return user.id === u.id;
             });
-
             if (!findValue) newUsers.push(user);
         });
 
@@ -91,9 +92,7 @@ export class PearsonUsers extends Component {
         let users = [...this.state.users];
         users.splice(index, 1);
 
-        this.setState({
-            users, showModal: false
-        });
+        this.setState({users, showModal: false});
     };
 
 
@@ -127,11 +126,11 @@ export class PearsonUsers extends Component {
         const {showModal,isLoading} = this.state;
         return (
             <div className = "pearson-users" >
-                <h1> Pearson User Management </h1>
+                <h1>Pearson User Management</h1>
                 <div className = "users-container" >
                 {this.makeUserList()}
                 </div>
-                <Loader loading={isLoading} ></Loader>
+                <Loader loading={isLoading} />
                 <UserPrompt
                     showModal = {showModal}
                     message = {COMPONENT_CONSTANTS.user_prompt_message}
